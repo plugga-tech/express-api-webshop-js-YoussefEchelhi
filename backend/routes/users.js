@@ -44,21 +44,6 @@ router.post('/add', function(req, res, next) {
 
 });
 
-router.post('/login', function(req, res, next){
 
-  const {email, password } = req.body;  //här hämtar vi ut namn och password
-  const foundUser = req.app.locals.db.collection("users").find({email: email})  //vi jämför om namnet vi skickar in matchar namnet i servern
-
-    if(crypto.SHA3(password).toString() === foundUser.password){
-
-    //if(password === crypto.AES(foundUser.password, salt).toString(crypto.enc.Utf8)){
-      res.status(201).json({email: foundUser.email, id: foundUser.id})
-    }
-    else {
-      res.status(401).json("Incorrect password or username");
-    }
-    //res.send(data)
-    return;
-  });
 
 module.exports = router;
