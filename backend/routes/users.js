@@ -11,7 +11,6 @@ router.get('/', function(req, res, next) {
   
   req.app.locals.db.collection("users").find({}, {projection: { password: 0 }}).toArray()
   .then(result => {
-    console.log("result from GET users", result);
     res.json(result)
   })
 }); 
@@ -19,11 +18,9 @@ router.get('/', function(req, res, next) {
 
 router.get('/:userId', function(req, res, next) {
   userId = req.params.userId;
-  console.log(userId);
 
   req.app.locals.db.collection("users").findOne({"_id": new ObjectId(userId) })
   .then(result => {
-    console.log("Hitta user", result);
     res.json(result)
   })
 });
@@ -47,15 +44,15 @@ router.post('/add', function(req, res, next) {
 
 router.post('/login', function(req, res, next){
   const {email, password } = req.body;
-  console.log(email, password);
 
   req.app.locals.db.collection("users").findOne({"email": email})
   .then(result => {
-    if(crypto.SHA3(password).toString() === result.password){
+    if(crypto.SHA3(password).toString() === result.password && email === result.email){
         res.status(201).json({email: result.email, password: result.password})
       } else {
         res.status(401).json("Incorrect password or username");
       }
+
     }); 
   });
 

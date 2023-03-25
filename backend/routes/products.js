@@ -10,7 +10,7 @@ router.post('/add', function(req, res, next) {
     newProduct.description = req.body.description;
     newProduct.price = req.body.price;
     newProduct.lager= req.body.lager;
-console.log(newProduct);
+    
     req.app.locals.db.collection("products").insertOne(newProduct)
     .then(result =>{
         res.json(result);
