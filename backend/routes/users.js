@@ -47,7 +47,7 @@ router.post('/login', function(req, res, next){
 
   req.app.locals.db.collection("users").findOne({"email": email})
   .then(result => {
-    if(crypto.SHA3(password).toString() === result.password){
+    if(result && crypto.SHA3(password).toString() === result.password){
         res.status(201).json({email: result.email, password: result.password})
       } else {
         res.status(401).json("Incorrect password or username");
